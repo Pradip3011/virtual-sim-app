@@ -1,20 +1,15 @@
-com.omnitest.virtual_sim/
-│
-├── data/
-│   ├── models/
-│   │   └── SmsMessage.kt
-│   └── network/
-│       └── WebSocketClient.kt
-│
-├── service/
-│   └── SimForegroundService.kt
-│
-├── utils/
-│   └── OtpParser.kt
-│
-└── ui/
-    ├── screens/
-    │   ├── LoginScreen.kt
-    │   └── DashboardScreen.kt
-    ├── theme/
-    └── MainActivity.kt
+virtual-sim-app/
+├── .github/workflows/
+│   └── android.yml
+├── app/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/com/omnitest/virtual_sim/
+│   │       │   ├── data/models/SmsMessage.kt
+│   │       │   ├── service/SimForegroundService.kt
+│   │       │   ├── ui/MainActivity.kt
+│   │       │   └── utils/OtpParser.kt
+│   │       └── AndroidManifest.xml
+│   └── build.gradle.kts
+├── build.gradle.kts         <-- (Missing: Add to Root)
+└── settings.gradle.kts      <-- (Missing: Add to Root)
