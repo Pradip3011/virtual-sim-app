@@ -45,7 +45,11 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     if (!isLoggedIn) {
-                        LoginView { isLoggedIn = true; startSimEngineService() }
+                        // Pass the captured phone number down to the service initiator upon login click
+                        LoginView { typedPhoneNumber -> 
+                            isLoggedIn = true
+                            startSimEngineService(typedPhoneNumber) 
+                        }
                     } else {
                         DashboardView(incomingMessageByBroadcast.value)
                     }
@@ -54,8 +58,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun startSimEngineService() {
-        startService(Intent(this, SimForegroundService::class.java))
+    // Accept the phone number string and deliver it straight to the foreground engine class
+    private fun startSimEngineService(phoneNumber: String) {
+        val serviceIntent = Intent(this, SimForegroundService::class.java).apply {
+            putExtra("KEY_PHONE_NUMBER", phoneNumber)
+        }
+        startService(serviceIntent)
     }
 
     override fun onDestroy() {
@@ -65,9 +73,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginView(onAuthSuccess: () -> Unit) {
+fun LoginView(onAuthSuccess: (String) -> Unit) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    // Stamping your targeted number right here as the absolute application default value
+    var phoneNumber by remember { mutableStateOf("+91727841422") }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
@@ -76,12 +86,19 @@ fun LoginView(onAuthSuccess: () -> Unit) {
     ) {
         Text("Virtual SIM Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(20.dp))
+        
         OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Full Name") }, modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(8.dp))
+        
         OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Registered Email ID") }, modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        // New interactive UI display node capturing your targeted phone tracking line
+        OutlinedTextField(value = phoneNumber, onValueChange = { phoneNumber = it }, label = { Text("Virtual Phone Line") }, modifier = Modifier.fillMaxWidth())
+        
         Spacer(modifier = Modifier.height(24.dp))
         Button(
-            onClick = { if (name.isNotBlank() && email.contains("@")) onAuthSuccess() },
+            onClick = { if (name.isNotBlank() && email.contains("@") && phoneNumber.isNotBlank()) onAuthSuccess(phoneNumber) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Login & Authenticate")
