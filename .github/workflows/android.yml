@@ -19,16 +19,16 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Auto-Generate Gradle Wrapper if Missing
+    - name: Auto-Generate Modern Gradle Wrapper
       run: |
         if [ ! -f gradlew ]; then
-          echo "Gradle wrapper missing. Generating on the fly..."
-          gradle wrapper
+          echo "Generating modern Gradle 8.7 environment..."
+          gradle wrapper --gradle-version 8.7
         fi
         chmod +x gradlew
 
     - name: Compile and Build Debug APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug --no-daemon
 
     - name: Upload Installable APK Artifact
       uses: actions/upload-artifact@v4
