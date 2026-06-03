@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application") version "8.2.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -36,22 +36,22 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.8" // Tailored precisely for Kotlin 1.9.22
     }
 }
 
 dependencies {
-    // UI & Compose Core
-    implementation("androidx.compose.ui:ui:1.6.0")
-    implementation("androidx.compose.material3:material3:1.2.0")
+    // UI Ecosystem
+    implementation("androidx.compose.ui:ui:1.6.2")
+    implementation("androidx.compose.material3:material3:1.2.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
 
-    // Ktor & Real-time WebSockets
-    implementation("io.ktor:ktor-client-core:2.3.7")
-    implementation("io.ktor:ktor-client-cio:2.3.7")
-    implementation("io.ktor:ktor-client-websockets:2.3.7")
+    // Backend WebSockets Pipeline
+    implementation("io.ktor:ktor-client-core:2.3.9")
+    implementation("io.ktor:ktor-client-cio:2.3.9")
+    implementation("io.ktor:ktor-client-websockets:2.3.9")
 
-    // Serialization Data Core
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    // Payload Parsing Data Engine
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 }
