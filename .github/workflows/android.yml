@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Source Code
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
     - name: Set up JDK 17
@@ -19,14 +19,19 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant Execute Permission for Gradle
-      run: chmod +x gradlew
+    - name: Auto-Generate Gradle Wrapper if Missing
+      run: |
+        if [ ! -f gradlew ]; then
+          echo "Gradle wrapper missing. Generating on the fly..."
+          gradle wrapper
+        fi
+        chmod +x gradlew
 
     - name: Compile and Build Debug APK
       run: ./gradlew assembleDebug
 
-    - name: Upload Installable Product
+    - name: Upload Installable APK Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: virtual-sim-app
+        name: VirtualSim-App-Debug
         path: app/build/outputs/apk/debug/app-debug.apk
