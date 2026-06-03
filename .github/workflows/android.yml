@@ -17,18 +17,14 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
 
-    - name: Auto-Generate Modern Gradle Wrapper
-      run: |
-        if [ ! -f gradlew ]; then
-          echo "Generating modern Gradle 8.7 environment..."
-          gradle wrapper --gradle-version 8.7
-        fi
-        chmod +x gradlew
+    - name: Force Stable Gradle 8.4 Environment
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: 8.4
 
     - name: Compile and Build Debug APK
-      run: ./gradlew assembleDebug --no-daemon
+      run: gradle assembleDebug --no-daemon
 
     - name: Upload Installable APK Artifact
       uses: actions/upload-artifact@v4
